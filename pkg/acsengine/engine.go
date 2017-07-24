@@ -329,7 +329,7 @@ func GetCloudSpecConfig(location string) AzureEnvironmentSpecConfig {
 	switch GetCloudTargetEnv(location) {
 	case azureChinaCloud:
 		return AzureChinaCloudSpec
-	//TODO - add cloud specs for germany and usgov
+		//TODO - add cloud specs for germany and usgov
 	default:
 		return AzureCloudSpec
 	}
@@ -487,12 +487,16 @@ func getParameters(cs *api.ContainerService, isClassicMode bool) (map[string]int
 	return parametersMap, nil
 }
 
+func AddValue(m map[string]interface{}, k string, v interface{}) { addValue(m, k, v) }
 func addValue(m map[string]interface{}, k string, v interface{}) {
 	m[k] = map[string]interface{}{
 		"value": v,
 	}
 }
 
+func AddSecret(m map[string]interface{}, k string, v interface{}, encode bool) {
+	addSecret(m, k, v, encode)
+}
 func addSecret(m map[string]interface{}, k string, v interface{}, encode bool) {
 	str, ok := v.(string)
 	if !ok {
@@ -607,7 +611,7 @@ func (t *TemplateGenerator) getTemplateFuncMap(cs *api.ContainerService) map[str
 		"UseManagedIdentity": func() bool {
 			return cs.Properties.OrchestratorProfile.KubernetesConfig.UseManagedIdentity
 		},
-                "UseInstanceMetadata": func() bool {
+		"UseInstanceMetadata": func() bool {
 			return cs.Properties.OrchestratorProfile.KubernetesConfig.UseInstanceMetadata
 		},
 		"GetVNETSubnetDependencies": func() string {

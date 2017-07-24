@@ -3,13 +3,12 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-
 	"github.com/Azure/acs-engine/pkg/api/v20160330"
 	"github.com/Azure/acs-engine/pkg/api/v20160930"
 	"github.com/Azure/acs-engine/pkg/api/v20170131"
 	"github.com/Azure/acs-engine/pkg/api/v20170701"
 	"github.com/Azure/acs-engine/pkg/api/vlabs"
+	"io/ioutil"
 )
 
 // LoadContainerServiceFromFile loads an ACS Cluster API Model from a JSON file
@@ -88,7 +87,6 @@ func LoadContainerService(contents []byte, version string, validate bool) (*Cont
 			return nil, e
 		}
 		return ConvertVLabsContainerService(containerService), nil
-
 	default:
 		return nil, fmt.Errorf("unrecognized APIVersion '%s'", version)
 	}
